@@ -1,0 +1,116 @@
+﻿@page
+@model App.Pages.TimeCalculator.IndexModel
+@{
+}
+
+<h4>This application calculates the number of days between two dates. Please insert two dates: </h4>
+
+<table class="table">
+
+    <tbody>
+        <tr>
+            <th>Date</th>
+            <th>
+                <div class="input-group date" data-provide="datepicker" data-date-format="dd/mm/yyyy">
+                    <input id="datePicker" type="text" class="form-control">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
+            </th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <th>
+                <input class="datepicker" data-date-format="dd/mm/yyyy">
+            </th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>
+                Security range
+            </th>
+            <th>
+                @Html.TextBox("SecurityRangeId", "1-20", new { @class = "form-control" })
+            </th>
+            <th>eg: 1, 4-10, 15, 20- (20- means 20-Max)</th>
+        </tr>
+        <tr>
+            <th>
+                Factor range
+            </th>
+            <th>
+                @Html.TextBox("FactorRangeId", null, new { @class = "form-control" })
+            </th>
+            <th>eg: -20, 30, 32, 34- (-20 means Min-20)</th>
+        </tr>
+        <tr>
+            <th>
+                <button type="button" id="btnSubmit" class="btn btn-primary">
+                    Submit
+                </button>
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tbody>
+</table>
+
+@section scripts {
+    <script>
+        var _tmr;
+        $(document).ready(function () {
+            //var $datepicker = $('#datePicker');
+            //$datepicker.datepicker('setDate', new Date());
+
+            $('#datePicker').val(formattedDate());
+            function formattedDate() {
+                var d = new Date;
+                var month = String(d.getMonth() + 1);
+                var day = String(d.getDate());
+                var year = String(d.getFullYear());
+
+                if (month.length < 2) month = '0' + month;
+                if (day.length < 2) day = '0' + day;
+
+                return day + '/' + month + '/' + year;
+            }
+
+            $("#btnSubmit").click(function () {
+                $('.result-context').hide();
+                //Spinner(true, "Getting security metadata...");
+                // var datePicker = parseInt($('#datePicker').val());
+                var datePicker = $('#datePicker').val();
+                var securityRangeId = $('#SecurityRangeId').val();
+                var factorRangeId = $('#FactorRangeId').val();
+                var bucketName = $('#BucketNameId').val();
+                var version = $("#SelectedMainVersion option:selected").val();
+
+
+                // save timestamp in hidden field, see: https://www.codeproject.com/Articles/1095434/Show-an-animation-while-waiting-for-a-download-to
+                var cookieValue = Date.now().toString();
+                $('#cookieValue').val(cookieValue);
+
+                // show animation
+                Spinner(true, "Getting security metadata...");
+
+                // Request to the server
+                window.location = "Metadata/Index/?handler=SecurityMetadata&date="
+                    + datePicker + "&securityRangeId=" + securityRangeId + "&factorRangeId="
+                    + factorRangeId + "&bucketName=" + bucketName + "&version=" + version
+                    + "&cookieForSpinner=" + cookieValue;
+
+                // start timer to wait for cookie
+                _tmr = window.setInterval(function () {
+                    var _str = 'dlc=' + $('#cookieValue').val();
+                    if (document.cookie.indexOf(_str) !== -1) {
+                        // hide animation
+                        Spinner(false);
+                        clearInterval(_tmr);
+                    }
+                }, 100);
+            });
+        });
+    </script>
+}
