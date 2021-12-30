@@ -20,7 +20,7 @@ namespace App.Pages.TimeCalculator
 
         public IActionResult OnGetTimeCalculation(string date1, string date2)
         {
-            // Thread.Sleep(1000);
+            Thread.Sleep(1000);
 
             var dateArray1 = date1.Split("/");
             var d1 = new SimpleDate(int.Parse(dateArray1[0]), int.Parse(dateArray1[1]), int.Parse(dateArray1[2]));
