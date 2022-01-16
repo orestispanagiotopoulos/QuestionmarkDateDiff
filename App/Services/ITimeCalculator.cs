@@ -1,4 +1,4 @@
-﻿using App.Entities;
+﻿using App.Model;
 
 namespace App.Services
 {

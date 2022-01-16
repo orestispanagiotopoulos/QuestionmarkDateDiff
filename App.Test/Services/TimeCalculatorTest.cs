@@ -1,4 +1,4 @@
-﻿using App.Entities;
+﻿using App.Model;
 using App.Services;
 using NUnit.Framework;
 

@@ -1,4 +1,4 @@
-﻿using App.Entities;
+﻿using App.Model;
 
 namespace App.Services
 {
@@ -52,7 +52,7 @@ namespace App.Services
                 years--;
             }
 
-            // An year is a leap year if it is a multiple of 4, multiple of 400 and not a multiple of 100. https://en.wikipedia.org/wiki/Leap_year
+            // A year is a leap year if it is a multiple of 4, multiple of 400 and not a multiple of 100. https://en.wikipedia.org/wiki/Leap_year
             return (years / 4) - (years / 100) + (years / 400);
         }
     }

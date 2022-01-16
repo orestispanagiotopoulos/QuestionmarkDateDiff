@@ -1,3 +1,4 @@
+using App.Validation;
 using App.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,6 +26,7 @@ namespace App
             });
 
             services.AddTransient<ITimeCalculator, TimeCalculator>();
+            services.AddTransient<IValidator, Validator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

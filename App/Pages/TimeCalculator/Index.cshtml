@@ -89,8 +89,7 @@
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         Spinner(false);
-                        alert(xhr.status);
-                        alert(thrownError);
+                        alert(xhr.status + " " + xhr.responseText);
                     }
                 });
             });
